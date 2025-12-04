@@ -23,10 +23,8 @@ fun main() {
 
     input.forEachIndexed { row, line ->
       line.forEachIndexed { col, char ->
-        if (char.isPaper()) {
-          if (input.isMovable(row, col)) {
-            count++
-          }
+        if (char.isPaper() && input.isMovable(row, col)) {
+          count++
         }
       }
     }
@@ -34,7 +32,32 @@ fun main() {
     return count
   }
 
-  fun part2(input: List<String>) = input.size
+  fun MutableList<String>.countMovablePapers(): Int {
+    var count = 0
+
+    forEachIndexed { row, line ->
+      line.forEachIndexed { col, char ->
+        if (char.isPaper() && isMovable(row, col)) {
+          count++
+          this[row] = this[row].substring(0, col) + '.' + this[row].substring(col + 1)
+        }
+      }
+    }
+
+    return count
+  }
+
+  fun part2(i: List<String>): Int {
+    val input = i.toMutableList()
+    var totalCount = 0
+
+    do {
+      val count = input.countMovablePapers()
+      totalCount += count
+    } while (count > 0)
+
+    return totalCount
+  }
 
 //     Test if implementation meets criteria from the description, like:
 //    check(part1(listOf("test_input")) == 1)
@@ -42,7 +65,7 @@ fun main() {
 //     Or read a large test input from the `src/Day04_test.txt` file:
   val testInput = readInput("Day04_test")
   check(part1(testInput) == 13)
-//  check(part2(testInput) == 3121910778619L)
+  check(part2(testInput) == 43)
 
 //     Read the input from the `src/Day04.txt` file.
   val input = readInput("Day04")
