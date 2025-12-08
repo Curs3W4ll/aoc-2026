@@ -28,14 +28,6 @@ fun main() {
     return this.map { it.padEnd(maxLength, ' ') }
   }
 
-//  fun List<String>.cephalopod(): List<Long> {
-//    val maxLength = this.maxOf { it.length }
-//
-//    return (0 until maxLength).map { index ->
-//      this.mapNotNull { it.getOrNull(it.length - 1 - index) }.joinToString("").toLong()
-//    }
-//  }
-
   fun part1(input: List<String>): Long {
     val normalized = input.normalize()
     val numbers = normalized.dropLast(1).toLongs().transpose()
